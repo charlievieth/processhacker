@@ -59,18 +59,6 @@ INT_PTR CALLBACK OptionsDlgProc(
     return FALSE;
 }
 
-VOID ShowOptionsDialog(
-    _In_opt_ HWND Parent
-    )
-{
-    DialogBox(
-        PluginInstance->DllBase,
-        MAKEINTRESOURCE(IDD_OPTIONS),
-        Parent,
-        OptionsDlgProc
-        );
-}
-
 INT_PTR CALLBACK TextDlgProc(
     _In_ HWND hwndDlg,
     _In_ UINT uMsg,

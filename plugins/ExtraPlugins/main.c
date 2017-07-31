@@ -278,7 +278,7 @@ VOID NTAPI ShowOptionsCallback(
     _In_opt_ PVOID Context
     )
 {
-    //ShowOptionsDialog((HWND)Parameter);
+    NOTHING;
 }
 
 LOGICAL DllMain(
@@ -323,7 +323,7 @@ LOGICAL DllMain(
                 &PluginUnloadCallbackRegistration
                 );
             PhRegisterCallback(
-                PhGetPluginCallback(PluginInstance, PluginCallbackShowOptions),
+                PhGetGeneralCallback(GeneralCallbackOptionsWindowInitializing),
                 ShowOptionsCallback,
                 NULL,
                 &PluginShowOptionsCallbackRegistration

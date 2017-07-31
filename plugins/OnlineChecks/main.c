@@ -150,7 +150,21 @@ VOID NTAPI ShowOptionsCallback(
     _In_opt_ PVOID Context
     )
 {
-    ShowOptionsDialog((HWND)Parameter);
+    PPH_PLUGIN_OBJECT_PROPERTIES objectProperties = Parameter;
+    PROPSHEETPAGE propSheetPage;
+
+    if (objectProperties->NumberOfPages < objectProperties->MaximumNumberOfPages)
+    {
+        memset(&propSheetPage, 0, sizeof(PROPSHEETPAGE));
+        propSheetPage.dwSize = sizeof(PROPSHEETPAGE);
+        propSheetPage.dwFlags = PSP_USETITLE;
+        propSheetPage.hInstance = PluginInstance->DllBase;
+        propSheetPage.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+        propSheetPage.pszTitle = L"OnlineChecks";
+        propSheetPage.pfnDlgProc = OptionsDlgProc;
+        propSheetPage.lParam = (LPARAM)objectProperties->Parameter;
+        objectProperties->Pages[objectProperties->NumberOfPages++] = CreatePropertySheetPage(&propSheetPage);
+    }
 }
 
 VOID NTAPI MenuItemCallback(
@@ -733,7 +747,6 @@ LOGICAL DllMain(
             info->Author = L"dmex, wj32";
             info->Description = L"Allows files to be checked with online services.";
             info->Url = L"https://wj32.org/processhacker/forums/viewtopic.php?t=1118";
-            info->HasOptions = TRUE;
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),
@@ -742,7 +755,7 @@ LOGICAL DllMain(
                 &PluginLoadCallbackRegistration
                 );
             PhRegisterCallback(
-                PhGetPluginCallback(PluginInstance, PluginCallbackShowOptions),
+                PhGetGeneralCallback(GeneralCallbackOptionsWindowInitializing),
                 ShowOptionsCallback,
                 NULL,
                 &PluginShowOptionsCallbackRegistration

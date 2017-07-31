@@ -1325,7 +1325,7 @@ BEGIN
     RTEXT           "Static",IDC_ZSHAREDWS_V,78,167,42,8,SS_ENDELLIPSIS
 END
 
-IDD_OPTADVANCED DIALOGEX 0, 0, 250, 150
+IDD_OPTADVANCED DIALOGEX 0, 0, 315, 194
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Advanced"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -2198,9 +2198,9 @@ BEGIN
     IDD_OPTADVANCED, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 243
+        RIGHTMARGIN, 308
         TOPMARGIN, 7
-        BOTTOMMARGIN, 143
+        BOTTOMMARGIN, 187
     END
 
     IDD_GDIHANDLES, DIALOG
@@ -2478,6 +2478,17 @@ IDR_RT_MANIFEST         RT_MANIFEST             "ProcessHacker.manifest"
 IDB_SEARCH_ACTIVE       PNG                     "resources\\active_search.png"
 
 IDB_SEARCH_INACTIVE     PNG                     "resources\\inactive_search.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTADVANCED AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English (Australia) resources
 /////////////////////////////////////////////////////////////////////////////

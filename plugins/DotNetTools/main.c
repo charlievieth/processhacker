@@ -223,7 +223,6 @@ LOGICAL DllMain(
             info->Author = L"dmex, wj32";
             info->Description = L"Adds .NET performance counters, assembly information, thread stack support, and more.";
             info->Url = L"https://wj32.org/processhacker/forums/viewtopic.php?t=1111";
-            info->HasOptions = FALSE;
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),
@@ -238,7 +237,7 @@ LOGICAL DllMain(
                 &PluginUnloadCallbackRegistration
                 );
             PhRegisterCallback(
-                PhGetPluginCallback(PluginInstance, PluginCallbackShowOptions),
+                PhGetGeneralCallback(GeneralCallbackOptionsWindowInitializing),
                 ShowOptionsCallback,
                 NULL,
                 &PluginShowOptionsCallbackRegistration

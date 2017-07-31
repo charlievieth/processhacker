@@ -314,12 +314,21 @@ VOID NTAPI ShowOptionsCallback(
     _In_opt_ PVOID Context
     )
 {
-    DialogBox(
-        PluginInstance->DllBase,
-        MAKEINTRESOURCE(IDD_OPTIONS),
-        (HWND)Parameter,
-        OptionsDlgProc
-        );
+    PPH_PLUGIN_OBJECT_PROPERTIES objectProperties = Parameter;
+    PROPSHEETPAGE propSheetPage;
+
+    if (objectProperties->NumberOfPages < objectProperties->MaximumNumberOfPages)
+    {
+        memset(&propSheetPage, 0, sizeof(PROPSHEETPAGE));
+        propSheetPage.dwSize = sizeof(PROPSHEETPAGE);
+        propSheetPage.dwFlags = PSP_USETITLE;
+        propSheetPage.hInstance = PluginInstance->DllBase;
+        propSheetPage.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+        propSheetPage.pszTitle = L"UserNotes";
+        propSheetPage.pfnDlgProc = OptionsDlgProc;
+        propSheetPage.lParam = (LPARAM)objectProperties->Parameter;
+        objectProperties->Pages[objectProperties->NumberOfPages++] = CreatePropertySheetPage(&propSheetPage);
+    }
 }
 
 VOID NTAPI MenuItemCallback(
@@ -1344,7 +1353,6 @@ LOGICAL DllMain(
         info->Author = L"dmex, wj32";
         info->Description = L"Allows the user to add comments for processes and services, save process priority and affinity, highlight individual processes and show processes collapsed by default.";
         info->Url = L"https://wj32.org/processhacker/forums/viewtopic.php?t=1120";
-        info->HasOptions = TRUE;
 
         InitializeDb();
 
@@ -1361,7 +1369,7 @@ LOGICAL DllMain(
             &PluginUnloadCallbackRegistration
             );
         PhRegisterCallback(
-            PhGetPluginCallback(PluginInstance, PluginCallbackShowOptions),
+            PhGetGeneralCallback(GeneralCallbackOptionsWindowInitializing),
             ShowOptionsCallback,
             NULL,
             &PluginShowOptionsCallbackRegistration
