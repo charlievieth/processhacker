@@ -293,7 +293,16 @@ INT WINAPI wWinMain(
     PhDrainAutoPool(&BaseAutoPool);
 
     result = PhMainMessageLoop();
-    RtlExitUserProcess(result);
+
+    if (PhGetIntegerSetting(L"EnableKph") && !PhStartupParameters.NoKph && !PhStartupParameters.CommandMode && !PhIsExecutingInWow64())
+    {
+        KphDisconnect();
+
+        if (PhGetIntegerSetting(L"KphUnloadOnExit") && PhGetIntegerSetting(L"AllowOnlyOneInstance"))
+            KphUninstall(KPH_DEVICE_SHORT_NAME);
+    }
+
+    return (INT)result;
 }
 
 LONG PhMainMessageLoop(
