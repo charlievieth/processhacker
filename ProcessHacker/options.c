@@ -293,7 +293,7 @@ static VOID PhpPageInit(
         MapWindowPoints(NULL, optionsWindow, (POINT *)&rect, 2);
         resetButton = CreateWindowEx(
             WS_EX_NOPARENTNOTIFY,
-            L"BUTTON",
+            WC_BUTTON,
             L"Reset",
             WS_CHILD | WS_VISIBLE | WS_TABSTOP,
             clientRect.right - rect.right,
